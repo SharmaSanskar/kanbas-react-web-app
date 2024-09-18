@@ -19,6 +19,16 @@ function TOC() {
         <li>
           <Link to="/Kanbas">Kanbas</Link>
         </li>
+        <li>
+          <a
+            id="wd-github"
+            href="https://github.com/SharmaSanskar/kanbas-react-web-app"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Github
+          </a>
+        </li>
       </ul>
     </div>
   );
