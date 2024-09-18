@@ -2,12 +2,14 @@ function AssignmentEditor() {
   return (
     <div id="wd-assignments-editor">
       <label htmlFor="wd-name">Assignment Name</label>
+      <br />
       <input id="wd-name" value="A1 - ENV + HTML" />
       <br />
       <br />
 
-      <textarea id="wd-description">
-        The assignment is available online Submit a link to the landing page of
+      <textarea id="wd-description" cols={60} rows={5}>
+        The assignment is available online submit a link to the landing page of
+        your Web application running on Netlify.
       </textarea>
       <br />
 
@@ -117,18 +119,38 @@ function AssignmentEditor() {
             <input type="date" id="wd-due-date" value="2024-05-13" />
 
             <br />
-            <label htmlFor="wd-available-from">Available from</label>
-            <br />
-            <input type="date" id="wd-available-from" value="2024-05-06" />
 
-            <br />
-            <label htmlFor="wd-available-until">Until</label>
-            <br />
-            <input type="date" id="wd-available-until" value="2024-05-20" />
+            <table>
+              <tr>
+                <td>
+                  <label htmlFor="wd-available-from">Available from</label>
+                </td>
+                <td>
+                  <label htmlFor="wd-available-until">Until</label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input
+                    type="date"
+                    id="wd-available-from"
+                    value="2024-05-06"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="date"
+                    id="wd-available-until"
+                    value="2024-05-20"
+                  />
+                </td>
+              </tr>
+            </table>
           </td>
         </tr>
       </table>
-      <br />
+
+      <hr />
 
       <button id="wd-cancel-btn" type="button">
         Cancel

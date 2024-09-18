@@ -42,8 +42,8 @@ function Assignments() {
             A2 - JAVASCRIPT + REACT
           </a>
           <br />
-          Multiple Modules | <b>Not available</b> until May 13 at 12:00am |{" "}
-          <b>Due</b> May 20 at 11:59pm | 100 pts
+          Multiple Modules | <b>Not available</b> until May 20 at 12:00am |{" "}
+          <b>Due</b> May 27 at 11:59pm | 100 pts
         </li>
       </ul>
     </div>

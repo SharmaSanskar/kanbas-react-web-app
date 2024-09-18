@@ -26,7 +26,7 @@ function TOC() {
             target="_blank"
             rel="noreferrer"
           >
-            Github
+            GitHub
           </a>
         </li>
       </ul>

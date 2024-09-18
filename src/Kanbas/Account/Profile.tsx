@@ -13,13 +13,13 @@ function Profile() {
         type="password"
       />
       <br />
-      <input id="wd-firstname" value="Alice" placeholder="First Name" />
+      <input id="wd-firstname" value="Sanskar" placeholder="First Name" />
       <br />
-      <input id="wd-lastname" value="Wonderland" placeholder="Last Name" />
+      <input id="wd-lastname" value="Sharma" placeholder="Last Name" />
       <br />
       <input id="wd-dob" value="2000-01-01" type="date" />
       <br />
-      <input id="wd-email" value="alice@wonderland" type="email" />
+      <input id="wd-email" value="ssharma@gmail.com" type="email" />
       <br />
       <select id="wd-role">
         <option value="USER">User</option>

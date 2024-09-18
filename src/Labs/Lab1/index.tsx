@@ -191,7 +191,7 @@ function Lab1() {
         <form id="wd-text-fields">
           <h5>Text Fields</h5>
           <label htmlFor="wd-text-fields-username">Username:</label>
-          <input id="wd-text-fields-username" placeholder="jdoe" /> <br />
+          <input id="wd-text-fields-username" placeholder="ssharma" /> <br />
           <label htmlFor="wd-text-fields-password">Password:</label>
           <input
             type="password"
@@ -297,7 +297,7 @@ function Lab1() {
           <label htmlFor="wd-text-fields-email"> Email: </label>
           <input
             type="email"
-            placeholder="jdoe@somewhere.com"
+            placeholder="ssharma@somewhere.com"
             id="wd-text-fields-email"
           />
           <br />
@@ -336,7 +336,7 @@ function Lab1() {
           id="wd-github"
           href="https://github.com/SharmaSanskar/kanbas-react-web-app"
         >
-          Github
+          GitHub
         </a>
       </div>
     </div>
