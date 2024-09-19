@@ -2,6 +2,14 @@ function Modules() {
   return (
     <div>
       {/* Implement Collapse All button, View Progress button, etc. */}
+      <button id="wd-collapse-all">Collapse All</button>
+      <button id="wd-view-progress">View Progress</button>
+      <select id="wd-publish-dropdown">
+        <option value="PUBLISH-ALL">Publish All</option>
+        <option value="PUBLISH-SINGLE">Publish Single</option>
+      </select>
+      <button id="wd-add-module">+ Module</button>
+
       <ul id="wd-modules">
         <li className="wd-module">
           <div className="wd-title">Week 1</div>
