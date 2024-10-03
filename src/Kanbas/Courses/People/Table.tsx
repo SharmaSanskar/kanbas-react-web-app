@@ -66,6 +66,19 @@ function PeopleTable() {
             <td className="wd-last-activity">2020-10-04</td>
             <td className="wd-total-activity">12:21:32</td>{" "}
           </tr>
+
+          <tr>
+            <td className="wd-full-name text-nowrap">
+              <FaUserCircle className="me-2 fs-1 text-secondary" />
+              <span className="wd-first-name">Thor</span>{" "}
+              <span className="wd-last-name">Odinson</span>
+            </td>
+            <td className="wd-login-id">001234565S</td>
+            <td className="wd-section">S105</td>
+            <td className="wd-role">STUDENT</td>
+            <td className="wd-last-activity">2020-10-05</td>
+            <td className="wd-total-activity">12:10:32</td>{" "}
+          </tr>
         </tbody>
       </table>
     </div>

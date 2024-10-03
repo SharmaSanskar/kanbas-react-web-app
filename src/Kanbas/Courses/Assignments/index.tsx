@@ -1,9 +1,9 @@
 import { BsGripVertical } from "react-icons/bs";
-import LessonControlButtons from "../Modules/LessonControlButtons";
 import { BiSearch } from "react-icons/bi";
 import { LuFileEdit } from "react-icons/lu";
 import { IoEllipsisVertical } from "react-icons/io5";
 import { FaPlus } from "react-icons/fa6";
+import GreenCheckmark from "../Modules/GreenCheckmark";
 
 function Assignments() {
   return (
@@ -70,12 +70,14 @@ function Assignments() {
               <b>Due</b> May 13 at 11:59pm | 100 pts
             </div>
           </div>
-          <LessonControlButtons />
+          <div className="float-end">
+            <GreenCheckmark />
+            <IoEllipsisVertical className="fs-4" />
+          </div>
         </li>
 
         <li className="wd-assignment-list-item list-group-item p-3 ps-1 d-flex justify-content-between align-items-center">
           {/* Complete On Your Own */}
-
           <div className="d-flex align-items-center">
             <BsGripVertical className="me-2 fs-3" />
             <LuFileEdit className="me-2 fs-3 text-success" />
@@ -91,7 +93,10 @@ function Assignments() {
               <b>Due</b> May 20 at 11:59pm | 100 pts
             </div>
           </div>
-          <LessonControlButtons />
+          <div className="float-end">
+            <GreenCheckmark />
+            <IoEllipsisVertical className="fs-4" />
+          </div>
         </li>
 
         <li className="wd-assignment-list-item list-group-item p-3 ps-1 d-flex justify-content-between align-items-center">
@@ -110,7 +115,10 @@ function Assignments() {
               <b>Due</b> May 27 at 11:59pm | 100 pts
             </div>
           </div>
-          <LessonControlButtons />
+          <div className="float-end">
+            <GreenCheckmark />
+            <IoEllipsisVertical className="fs-4" />
+          </div>
         </li>
       </ul>
     </div>
