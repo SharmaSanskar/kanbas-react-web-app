@@ -4,8 +4,12 @@ import { LuFileEdit } from "react-icons/lu";
 import { IoEllipsisVertical } from "react-icons/io5";
 import { FaPlus } from "react-icons/fa6";
 import GreenCheckmark from "../Modules/GreenCheckmark";
+import { useParams } from "react-router";
+import * as db from "../../Database";
 
 function Assignments() {
+  const { cid } = useParams();
+  const assignments = db.assignments;
   return (
     <div id="wd-assignments" className="container">
       <div className="d-flex justify-content-between align-items-center mb-4">
@@ -54,72 +58,34 @@ function Assignments() {
       </div>
 
       <ul id="wd-assignment-list" className="list-group rounded-0">
-        <li className="wd-assignment-list-item list-group-item p-3 ps-1 d-flex justify-content-between align-items-center">
-          <div className="d-flex align-items-center">
-            <BsGripVertical className="me-2 fs-3" />
-            <LuFileEdit className="me-2 fs-3 text-success" />
-            <div>
-              <a
-                className="wd-assignment-link"
-                href="#/Kanbas/Courses/1234/Assignments/123"
-              >
-                A1 - ENV + HTML
-              </a>
-              <br />
-              Multiple Modules | <b>Not available</b> until May 6 at 12:00am |{" "}
-              <b>Due</b> May 13 at 11:59pm | 100 pts
-            </div>
-          </div>
-          <div className="float-end">
-            <GreenCheckmark />
-            <IoEllipsisVertical className="fs-4" />
-          </div>
-        </li>
-
-        <li className="wd-assignment-list-item list-group-item p-3 ps-1 d-flex justify-content-between align-items-center">
-          {/* Complete On Your Own */}
-          <div className="d-flex align-items-center">
-            <BsGripVertical className="me-2 fs-3" />
-            <LuFileEdit className="me-2 fs-3 text-success" />
-            <div>
-              <a
-                className="wd-assignment-link"
-                href="#/Kanbas/Courses/1234/Assignments/123"
-              >
-                A2 - CSS + BOOTSTRAP
-              </a>
-              <br />
-              Multiple Modules | <b>Not available</b> until May 13 at 12:00am |{" "}
-              <b>Due</b> May 20 at 11:59pm | 100 pts
-            </div>
-          </div>
-          <div className="float-end">
-            <GreenCheckmark />
-            <IoEllipsisVertical className="fs-4" />
-          </div>
-        </li>
-
-        <li className="wd-assignment-list-item list-group-item p-3 ps-1 d-flex justify-content-between align-items-center">
-          <div className="d-flex align-items-center">
-            <BsGripVertical className="me-2 fs-3" />
-            <LuFileEdit className="me-2 fs-3 text-success" />
-            <div>
-              <a
-                className="wd-assignment-link"
-                href="#/Kanbas/Courses/1234/Assignments/123"
-              >
-                A3 - JAVASCRIPT + REACT
-              </a>
-              <br />
-              Multiple Modules | <b>Not available</b> until May 20 at 12:00am |{" "}
-              <b>Due</b> May 27 at 11:59pm | 100 pts
-            </div>
-          </div>
-          <div className="float-end">
-            <GreenCheckmark />
-            <IoEllipsisVertical className="fs-4" />
-          </div>
-        </li>
+        {assignments
+          .filter((assignment) => assignment.course === cid)
+          .map((assignment) => (
+            <li
+              key={assignment._id}
+              className="wd-assignment-list-item list-group-item p-3 ps-1 d-flex justify-content-between align-items-center"
+            >
+              <div className="d-flex align-items-center">
+                <BsGripVertical className="me-2 fs-3" />
+                <LuFileEdit className="me-2 fs-3 text-success" />
+                <div>
+                  <a
+                    className="wd-assignment-link"
+                    href={`#/Kanbas/Courses/${assignment.course}/Assignments/${assignment._id}`}
+                  >
+                    {`${assignment._id} - ${assignment.title}`}
+                  </a>
+                  <br />
+                  Multiple Modules | <b>Not available</b> until May 6 at 12:00am
+                  | <b>Due</b> May 13 at 11:59pm | 100 pts
+                </div>
+              </div>
+              <div className="float-end">
+                <GreenCheckmark />
+                <IoEllipsisVertical className="fs-4" />
+              </div>
+            </li>
+          ))}
       </ul>
     </div>
   );
