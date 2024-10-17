@@ -112,5 +112,41 @@
       "name": "Spacecraft Systems Engineering",
       "description": "Overview of spacecraft systems and subsystems engineering.",
       "course": "RS103"
+    },
+    {
+      "_id": "M401",
+      "name": "Structure and bonding",
+      "description": "Fundamentals of structure and bonding",
+      "course": "RS104"
+    },
+    {
+      "_id": "M402",
+      "name": "Alkanes",
+      "description": "Understanding alkanes and cycloalkanes",
+      "course": "RS104"
+    },
+    {
+      "_id": "M403",
+      "name": "Resonance",
+      "description": "Overview of resonance.",
+      "course": "RS104"
+    },
+    {
+      "_id": "M501",
+      "name": "Transition elements",
+      "description": "Fundamentals of transition elements",
+      "course": "RS105"
+    },
+    {
+      "_id": "M502",
+      "name": "Acids, bases, and salts",
+      "description": "Understanding acids, bases, and salts",
+      "course": "RS105"
+    },
+    {
+      "_id": "M503",
+      "name": "Chemical bonding",
+      "description": "Overview of chemical bonding.",
+      "course": "RS105"
     }
   ]

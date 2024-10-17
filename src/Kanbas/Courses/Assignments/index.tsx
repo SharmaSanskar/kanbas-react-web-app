@@ -76,8 +76,9 @@ function Assignments() {
                     {`${assignment._id} - ${assignment.title}`}
                   </a>
                   <br />
-                  Multiple Modules | <b>Not available</b> until May 6 at 12:00am
-                  | <b>Due</b> May 13 at 11:59pm | 100 pts
+                  Multiple Modules | <b>Not available</b> until{" "}
+                  {assignment["available-from"]} at 12:00am | <b>Due</b>{" "}
+                  {assignment["due-date"]} at 11:59pm | {assignment.points} pts
                 </div>
               </div>
               <div className="float-end">

@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 function AssignmentEditor() {
   const { aid, cid } = useParams();
-  console.log("Params", aid, cid);
   const assignments = db.assignments;
   const assignment = assignments.find((a) => a._id === aid);
   if (!assignment) return <div>Assignment Not Found</div>;
@@ -23,8 +22,7 @@ function AssignmentEditor() {
         rows={5}
         className="form-control mt-4"
       >
-        The assignment is available online submit a link to the landing page of
-        your Web application running on Netlify.
+        {assignment.description}
       </textarea>
       <br />
 
@@ -47,7 +45,11 @@ function AssignmentEditor() {
           Points
         </label>
         <div className="col-sm-10">
-          <input id="wd-points" value={100} className="form-control" />
+          <input
+            id="wd-points"
+            value={assignment.points}
+            className="form-control"
+          />
         </div>
       </div>
 
@@ -182,7 +184,7 @@ function AssignmentEditor() {
               <input
                 type="date"
                 id="wd-due-date"
-                value="2024-05-13"
+                value={assignment["due-date"]}
                 className="form-control"
               />
             </div>
@@ -198,7 +200,7 @@ function AssignmentEditor() {
                 <input
                   type="date"
                   id="wd-available-from"
-                  value="2024-05-06"
+                  value={assignment["available-from"]}
                   className="form-control"
                 />
               </div>
@@ -212,7 +214,7 @@ function AssignmentEditor() {
                 <input
                   type="date"
                   id="wd-available-until"
-                  value="2024-05-20"
+                  value={assignment["available-until"]}
                   className="form-control"
                 />
               </div>
