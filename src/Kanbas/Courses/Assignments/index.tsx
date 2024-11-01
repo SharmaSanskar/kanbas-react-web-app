@@ -3,13 +3,20 @@ import { BiSearch } from "react-icons/bi";
 import { LuFileEdit } from "react-icons/lu";
 import { IoEllipsisVertical } from "react-icons/io5";
 import { FaPlus } from "react-icons/fa6";
+import { FaTrash } from "react-icons/fa";
 import GreenCheckmark from "../Modules/GreenCheckmark";
 import { useParams } from "react-router";
-import * as db from "../../Database";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteAssignment } from "./reducer";
 
 function Assignments() {
   const { cid } = useParams();
-  const assignments = db.assignments;
+  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+  const dispatch = useDispatch();
+
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+
   return (
     <div id="wd-assignments" className="container">
       <div className="d-flex justify-content-between align-items-center mb-4">
@@ -30,9 +37,15 @@ function Assignments() {
           >
             + Group
           </button>
-          <button id="wd-add-assignment" className="btn btn-danger">
-            + Assignment
-          </button>
+          {currentUser.role === "FACULTY" && (
+            <Link
+              id="wd-add-assignment"
+              className="btn btn-danger"
+              to={`/Kanbas/Courses/${cid}/Assignments/new`}
+            >
+              + Assignment
+            </Link>
+          )}
         </div>
       </div>
 
@@ -59,8 +72,8 @@ function Assignments() {
 
       <ul id="wd-assignment-list" className="list-group rounded-0">
         {assignments
-          .filter((assignment) => assignment.course === cid)
-          .map((assignment) => (
+          .filter((assignment: any) => assignment.course === cid)
+          .map((assignment: any) => (
             <li
               key={assignment._id}
               className="wd-assignment-list-item list-group-item p-3 ps-1 d-flex justify-content-between align-items-center"
@@ -69,19 +82,31 @@ function Assignments() {
                 <BsGripVertical className="me-2 fs-3" />
                 <LuFileEdit className="me-2 fs-3 text-success" />
                 <div>
-                  <a
-                    className="wd-assignment-link"
-                    href={`#/Kanbas/Courses/${assignment.course}/Assignments/${assignment._id}`}
-                  >
-                    {`${assignment._id} - ${assignment.title}`}
-                  </a>
+                  {currentUser.role === "FACULTY" ? (
+                    <a
+                      className="wd-assignment-link"
+                      href={`#/Kanbas/Courses/${assignment.course}/Assignments/${assignment._id}`}
+                    >
+                      {`${assignment._id} - ${assignment.title}`}
+                    </a>
+                  ) : (
+                    <span className="wd-assignment-link">
+                      {`${assignment._id} - ${assignment.title}`}
+                    </span>
+                  )}
                   <br />
                   Multiple Modules | <b>Not available</b> until{" "}
                   {assignment["available-from"]} at 12:00am | <b>Due</b>{" "}
                   {assignment["due-date"]} at 11:59pm | {assignment.points} pts
                 </div>
               </div>
-              <div className="float-end">
+              <div className="float-end d-flex align-items-center">
+                {currentUser.role === "FACULTY" && (
+                  <FaTrash
+                    className="text-danger me-2 mb-1"
+                    onClick={() => dispatch(deleteAssignment(assignment._id))}
+                  />
+                )}
                 <GreenCheckmark />
                 <IoEllipsisVertical className="fs-4" />
               </div>
