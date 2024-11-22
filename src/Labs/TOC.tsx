@@ -64,7 +64,29 @@ function TOC() {
             rel="noreferrer"
             className="nav-link"
           >
-            GitHub
+            GitHub React
+          </a>
+        </li>
+        <li className="nav-item">
+          <a
+            id="wd-github-node"
+            href="https://github.com/SharmaSanskar/kanbas-node-server-app"
+            target="_blank"
+            rel="noreferrer"
+            className="nav-link"
+          >
+            GitHub Node
+          </a>
+        </li>
+        <li className="nav-item">
+          <a
+            id="wd-server"
+            href="https://kanbas-node-server-app-g7ak.onrender.com"
+            target="_blank"
+            rel="noreferrer"
+            className="nav-link"
+          >
+            Node Server
           </a>
         </li>
       </ul>

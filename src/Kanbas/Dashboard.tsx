@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { enroll, unenroll } from "./Courses/Home/reducer";
+import * as coursesClient from "./Courses/client";
 
 function Dashboard({
   courses,
@@ -10,10 +11,14 @@ function Dashboard({
   addNewCourse,
   deleteCourse,
   updateCourse,
+  enrollmentFilterOn,
+  setEnrollmentFilterOn,
 }: {
   courses: any[];
   course: any;
   setCourse: (course: any) => void;
+  enrollmentFilterOn: boolean;
+  setEnrollmentFilterOn: (status: any) => void;
   addNewCourse: () => void;
   deleteCourse: (course: any) => void;
   updateCourse: () => void;
@@ -21,18 +26,35 @@ function Dashboard({
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
   const dispatch = useDispatch();
-  const [enrollmentFilterOn, setEnrollmentFilterOn] = useState(true);
 
   const isEnrolled = (course: any) => {
-    if (currentUser.role === "STUDENT") {
-      return enrollments.some(
-        (enrollment: any) =>
-          enrollment.user === currentUser._id &&
-          enrollment.course === course._id
-      );
-    } else {
-      return enrollments;
-    }
+    return enrollments.some(
+      (enrollment: any) =>
+        enrollment.user === currentUser._id && enrollment.course === course._id
+    );
+  };
+
+  const unenrollCourse = async (courseId: string) => {
+    console.log("unenroll", courseId);
+
+    await coursesClient.unenrollUserFromCourse(courseId);
+    dispatch(
+      unenroll({
+        user: currentUser._id,
+        course: courseId,
+      })
+    );
+  };
+
+  const enrollCourse = async (courseId: string) => {
+    console.log("Enroll", courseId);
+    await coursesClient.enrollUserInCourse(courseId);
+    dispatch(
+      enroll({
+        user: currentUser._id,
+        course: courseId,
+      })
+    );
   };
 
   return (
@@ -88,10 +110,7 @@ function Dashboard({
       <hr />
       <div id="wd-dashboard-courses" className="row">
         <div className="row row-cols-1 row-cols-md-5 g-4">
-          {(enrollmentFilterOn
-            ? courses.filter((course) => isEnrolled(course))
-            : courses
-          ).map((course) => (
+          {courses.map((course) => (
             <div
               key={course._id}
               className="wd-dashboard-course col"
@@ -159,12 +178,7 @@ function Dashboard({
                           className="btn btn-danger float-end"
                           onClick={(event) => {
                             event.preventDefault();
-                            dispatch(
-                              unenroll({
-                                user: currentUser._id,
-                                course: course._id,
-                              })
-                            );
+                            unenrollCourse(course._id);
                           }}
                         >
                           Unenroll
@@ -174,12 +188,7 @@ function Dashboard({
                           className="btn btn-success float-end"
                           onClick={(event) => {
                             event.preventDefault();
-                            dispatch(
-                              enroll({
-                                user: currentUser._id,
-                                course: course._id,
-                              })
-                            );
+                            enrollCourse(course._id);
                           }}
                         >
                           Enroll

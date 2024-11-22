@@ -8,7 +8,10 @@ import GreenCheckmark from "../Modules/GreenCheckmark";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteAssignment } from "./reducer";
+import { deleteAssignment, setAssignments } from "./reducer";
+import { useEffect } from "react";
+import * as coursesClient from "../client";
+import * as assignmentsClient from "./client";
 
 function Assignments() {
   const { cid } = useParams();
@@ -16,6 +19,21 @@ function Assignments() {
   const dispatch = useDispatch();
 
   const { currentUser } = useSelector((state: any) => state.accountReducer);
+
+  const removeAssignment = async (assignmentId: string) => {
+    await assignmentsClient.deleteAssignment(assignmentId);
+    dispatch(deleteAssignment(assignmentId));
+  };
+
+  const fetchAssignments = async () => {
+    const assignments = await coursesClient.findAssignmentsForCourse(
+      cid as string
+    );
+    dispatch(setAssignments(assignments));
+  };
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
 
   return (
     <div id="wd-assignments" className="container">
@@ -71,47 +89,45 @@ function Assignments() {
       </div>
 
       <ul id="wd-assignment-list" className="list-group rounded-0">
-        {assignments
-          .filter((assignment: any) => assignment.course === cid)
-          .map((assignment: any) => (
-            <li
-              key={assignment._id}
-              className="wd-assignment-list-item list-group-item p-3 ps-1 d-flex justify-content-between align-items-center"
-            >
-              <div className="d-flex align-items-center">
-                <BsGripVertical className="me-2 fs-3" />
-                <LuFileEdit className="me-2 fs-3 text-success" />
-                <div>
-                  {currentUser.role === "FACULTY" ? (
-                    <a
-                      className="wd-assignment-link"
-                      href={`#/Kanbas/Courses/${assignment.course}/Assignments/${assignment._id}`}
-                    >
-                      {`${assignment._id} - ${assignment.title}`}
-                    </a>
-                  ) : (
-                    <span className="wd-assignment-link">
-                      {`${assignment._id} - ${assignment.title}`}
-                    </span>
-                  )}
-                  <br />
-                  Multiple Modules | <b>Not available</b> until{" "}
-                  {assignment["available-from"]} at 12:00am | <b>Due</b>{" "}
-                  {assignment["due-date"]} at 11:59pm | {assignment.points} pts
-                </div>
-              </div>
-              <div className="float-end d-flex align-items-center">
-                {currentUser.role === "FACULTY" && (
-                  <FaTrash
-                    className="text-danger me-2 mb-1"
-                    onClick={() => dispatch(deleteAssignment(assignment._id))}
-                  />
+        {assignments.map((assignment: any) => (
+          <li
+            key={assignment._id}
+            className="wd-assignment-list-item list-group-item p-3 ps-1 d-flex justify-content-between align-items-center"
+          >
+            <div className="d-flex align-items-center">
+              <BsGripVertical className="me-2 fs-3" />
+              <LuFileEdit className="me-2 fs-3 text-success" />
+              <div>
+                {currentUser.role === "FACULTY" ? (
+                  <a
+                    className="wd-assignment-link"
+                    href={`#/Kanbas/Courses/${assignment.course}/Assignments/${assignment._id}`}
+                  >
+                    {`${assignment._id} - ${assignment.title}`}
+                  </a>
+                ) : (
+                  <span className="wd-assignment-link">
+                    {`${assignment._id} - ${assignment.title}`}
+                  </span>
                 )}
-                <GreenCheckmark />
-                <IoEllipsisVertical className="fs-4" />
+                <br />
+                Multiple Modules | <b>Not available</b> until{" "}
+                {assignment["available-from"]} at 12:00am | <b>Due</b>{" "}
+                {assignment["due-date"]} at 11:59pm | {assignment.points} pts
               </div>
-            </li>
-          ))}
+            </div>
+            <div className="float-end d-flex align-items-center">
+              {currentUser.role === "FACULTY" && (
+                <FaTrash
+                  className="text-danger me-2 mb-1"
+                  onClick={() => removeAssignment(assignment._id)}
+                />
+              )}
+              <GreenCheckmark />
+              <IoEllipsisVertical className="fs-4" />
+            </div>
+          </li>
+        ))}
       </ul>
     </div>
   );

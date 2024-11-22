@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addAssignment, updateAssignment } from "./reducer";
+import * as coursesClient from "../client";
+import * as assignmentsClient from "./client";
 
 function AssignmentEditor() {
   const { aid, cid } = useParams();
@@ -27,6 +29,21 @@ function AssignmentEditor() {
         }
   );
 
+  const createAssignmentForCourse = async () => {
+    if (!cid) return;
+    const newAssignment = { ...assignment, course: cid };
+    const assignmentRes = await coursesClient.createAssignmentForCourse(
+      cid,
+      newAssignment
+    );
+    dispatch(addAssignment(assignmentRes));
+  };
+
+  const saveAssignment = async (assignment: any) => {
+    await assignmentsClient.updateAssignment(assignment);
+    dispatch(updateAssignment(assignment));
+  };
+
   const onSaveClick = () => {
     if (
       assignment.title &&
@@ -37,9 +54,9 @@ function AssignmentEditor() {
       assignment["available-until"]
     ) {
       if (aid === "new") {
-        dispatch(addAssignment(assignment));
+        createAssignmentForCourse();
       } else {
-        dispatch(updateAssignment(assignment));
+        saveAssignment(assignment);
       }
       navigate(`/Kanbas/Courses/${cid}/Assignments`);
     } else {
