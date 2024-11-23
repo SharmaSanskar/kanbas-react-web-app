@@ -75,7 +75,7 @@ function TOC() {
             rel="noreferrer"
             className="nav-link"
           >
-            GitHub Node
+            GitHub Node.js
           </a>
         </li>
         <li className="nav-item">
