@@ -23,46 +23,84 @@ function Kanbas() {
     description: "New Description",
   });
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const [enrollmentFilterOn, setEnrollmentFilterOn] = useState(true);
-  const dispatch = useDispatch();
 
+  const [enrolling, setEnrolling] = useState<boolean>(false);
+  const findCoursesForUser = async () => {
+    try {
+      const courses = await userClient.findCoursesForUser(currentUser._id);
+      setCourses(courses);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const fetchCourses = async () => {
     try {
-      const courses = await userClient.findMyCourses();
+      const allCourses = await courseClient.fetchAllCourses();
+      const enrolledCourses = await userClient.findCoursesForUser(
+        currentUser._id
+      );
+      const courses = allCourses.map((course: any) => {
+        if (enrolledCourses.find((c: any) => c._id === course._id)) {
+          return { ...course, enrolled: true };
+        } else {
+          return { ...course, enrolled: false };
+        }
+      });
+      console.log("FETCH ALL", enrolledCourses, allCourses, courses);
       setCourses(courses);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const fetchAllCourses = async () => {
-    try {
-      const courses = await courseClient.fetchAllCourses();
-      setCourses(courses);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const fetchAllEnrollments = async () => {
-    try {
-      const enrollments = await courseClient.fetchAllEnrollments();
-      dispatch(setEnrollments(enrollments));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
-    enrollmentFilterOn ? fetchCourses() : fetchAllCourses();
-  }, [currentUser, enrollmentFilterOn]);
+    if (enrolling) {
+      fetchCourses();
+    } else {
+      findCoursesForUser();
+    }
+  }, [currentUser, enrolling]);
 
-  useEffect(() => {
-    fetchAllEnrollments();
-  }, []);
+  // const [enrollmentFilterOn, setEnrollmentFilterOn] = useState(true);
+
+  // const fetchCourses = async () => {
+  //   try {
+  //     const courses = await userClient.findMyCourses();
+  //     setCourses(courses);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  // const fetchAllCourses = async () => {
+  //   try {
+  //     const courses = await courseClient.fetchAllCourses();
+  //     setCourses(courses);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  // const fetchAllEnrollments = async () => {
+  //   try {
+  //     const enrollments = await courseClient.fetchAllEnrollments();
+  //     dispatch(setEnrollments(enrollments));
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   enrollmentFilterOn ? fetchCourses() : fetchAllCourses();
+  // }, [currentUser, enrollmentFilterOn]);
+
+  // useEffect(() => {
+  //   fetchAllEnrollments();
+  // }, []);
 
   const addNewCourse = async () => {
-    const newCourse = await userClient.createCourse(course);
+    // const newCourse = await userClient.createCourse(course);
+    const newCourse = await courseClient.createCourse(course);
     setCourses([...courses, newCourse]);
   };
 
@@ -79,6 +117,23 @@ function Kanbas() {
           return course;
         } else {
           return c;
+        }
+      })
+    );
+  };
+
+  const updateEnrollment = async (courseId: string, enrolled: boolean) => {
+    if (enrolled) {
+      await userClient.enrollIntoCourse(currentUser._id, courseId);
+    } else {
+      await userClient.unenrollFromCourse(currentUser._id, courseId);
+    }
+    setCourses(
+      courses.map((course) => {
+        if (course._id === courseId) {
+          return { ...course, enrolled: enrolled };
+        } else {
+          return course;
         }
       })
     );
@@ -104,8 +159,9 @@ function Kanbas() {
                     addNewCourse={addNewCourse}
                     deleteCourse={deleteCourse}
                     updateCourse={updateCourse}
-                    enrollmentFilterOn={enrollmentFilterOn}
-                    setEnrollmentFilterOn={setEnrollmentFilterOn}
+                    enrolling={enrolling}
+                    setEnrolling={setEnrolling}
+                    updateEnrollment={updateEnrollment}
                   />
                 </ProtectedRoute>
               }

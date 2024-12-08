@@ -11,27 +11,31 @@ function Dashboard({
   addNewCourse,
   deleteCourse,
   updateCourse,
-  enrollmentFilterOn,
-  setEnrollmentFilterOn,
+  enrolling,
+  setEnrolling,
+  updateEnrollment,
 }: {
   courses: any[];
   course: any;
   setCourse: (course: any) => void;
-  enrollmentFilterOn: boolean;
-  setEnrollmentFilterOn: (status: any) => void;
+  enrolling: boolean;
+  setEnrolling: (enrolling: boolean) => void;
   addNewCourse: () => void;
   deleteCourse: (course: any) => void;
   updateCourse: () => void;
+  updateEnrollment: (courseId: string, enrolled: boolean) => void;
 }) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
   const dispatch = useDispatch();
 
   const isEnrolled = (course: any) => {
-    return enrollments.some(
-      (enrollment: any) =>
-        enrollment.user === currentUser._id && enrollment.course === course._id
-    );
+    if (currentUser.role === "FACULTY") return true;
+    return course.enrolled;
+    // return enrollments.some(
+    //   (enrollment: any) =>
+    //     enrollment.user === currentUser._id && enrollment.course === course._id
+    // );
   };
 
   const unenrollCourse = async (courseId: string) => {
@@ -57,16 +61,18 @@ function Dashboard({
     );
   };
 
+  console.log("Courses", courses);
+
   return (
     <div id="wd-dashboard">
       {currentUser.role === "STUDENT" && (
         <div className="d-flex align-items-center justify-content-between">
           <h1 id="wd-dashboard-title">Dashboard</h1>
           <button
-            className="btn btn-primary"
-            onClick={() => setEnrollmentFilterOn(!enrollmentFilterOn)}
+            onClick={() => setEnrolling(!enrolling)}
+            className="float-end btn btn-primary"
           >
-            Enrollments
+            {enrolling ? "My Courses" : "All Courses"}
           </button>
         </div>
       )}
@@ -137,6 +143,19 @@ function Dashboard({
                   />
                   <div className="card-body">
                     <h5 className="wd-dashboard-course-title card-title">
+                      {enrolling && (
+                        <button
+                          onClick={(event) => {
+                            event.preventDefault();
+                            updateEnrollment(course._id, !course.enrolled);
+                          }}
+                          className={`btn ${
+                            course.enrolled ? "btn-danger" : "btn-success"
+                          } float-end`}
+                        >
+                          {course.enrolled ? "Unenroll" : "Enroll"}
+                        </button>
+                      )}
                       {course.name}
                     </h5>
                     <p
@@ -172,7 +191,7 @@ function Dashboard({
                         </button>
                       </>
                     )}
-                    {currentUser.role === "STUDENT" &&
+                    {/* {currentUser.role === "STUDENT" &&
                       (isEnrolled(course) ? (
                         <button
                           className="btn btn-danger float-end"
@@ -193,7 +212,7 @@ function Dashboard({
                         >
                           Enroll
                         </button>
-                      ))}
+                      ))} */}
                   </div>
                 </Link>
               </div>
