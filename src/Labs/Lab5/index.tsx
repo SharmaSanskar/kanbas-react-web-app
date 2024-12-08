@@ -6,7 +6,7 @@ import WorkingWithArrays from "./WorkingWithArrays";
 import WorkingWithArraysAsynchronously from "./WorkingWithArraysAsynchronously";
 import WorkingWithObjects from "./WorkingWithObjects";
 import WorkingWithObjectsAsynchronously from "./WorkingWithObjectsAsynchronously";
-const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER_A6;
+const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 
 function Lab5() {
   return (
