@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { enroll, unenroll } from "./Courses/Home/reducer";
-import * as coursesClient from "./Courses/client";
+// import { useEffect, useState } from "react";
+// import { enroll, unenroll } from "./Courses/Home/reducer";
+// import * as coursesClient from "./Courses/client";
 
 function Dashboard({
   courses,
@@ -26,42 +26,46 @@ function Dashboard({
   updateEnrollment: (courseId: string, enrolled: boolean) => void;
 }) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
-  const dispatch = useDispatch();
+  // const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
+  // const dispatch = useDispatch();
 
   const isEnrolled = (course: any) => {
-    if (currentUser.role === "FACULTY") return true;
-    return course.enrolled;
+    if (currentUser.role === "STUDENT") {
+      if (!enrolling) return true;
+      return course.enrolled;
+    } else {
+      return true;
+    }
     // return enrollments.some(
     //   (enrollment: any) =>
     //     enrollment.user === currentUser._id && enrollment.course === course._id
     // );
   };
 
-  const unenrollCourse = async (courseId: string) => {
-    console.log("unenroll", courseId);
+  // const unenrollCourse = async (courseId: string) => {
+  //   console.log("unenroll", courseId);
 
-    await coursesClient.unenrollUserFromCourse(courseId);
-    dispatch(
-      unenroll({
-        user: currentUser._id,
-        course: courseId,
-      })
-    );
-  };
+  //   await coursesClient.unenrollUserFromCourse(courseId);
+  //   dispatch(
+  //     unenroll({
+  //       user: currentUser._id,
+  //       course: courseId,
+  //     })
+  //   );
+  // };
 
-  const enrollCourse = async (courseId: string) => {
-    console.log("Enroll", courseId);
-    await coursesClient.enrollUserInCourse(courseId);
-    dispatch(
-      enroll({
-        user: currentUser._id,
-        course: courseId,
-      })
-    );
-  };
+  // const enrollCourse = async (courseId: string) => {
+  //   console.log("Enroll", courseId);
+  //   await coursesClient.enrollUserInCourse(courseId);
+  //   dispatch(
+  //     enroll({
+  //       user: currentUser._id,
+  //       course: courseId,
+  //     })
+  //   );
+  // };
 
-  console.log("Courses", courses);
+  console.log(courses);
 
   return (
     <div id="wd-dashboard">

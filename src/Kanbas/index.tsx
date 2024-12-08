@@ -28,7 +28,7 @@ function Kanbas() {
   const findCoursesForUser = async () => {
     try {
       const courses = await userClient.findCoursesForUser(currentUser._id);
-      setCourses(courses);
+      setCourses(courses.filter((c: any) => c));
     } catch (error) {
       console.error(error);
     }
@@ -39,6 +39,7 @@ function Kanbas() {
       const enrolledCourses = await userClient.findCoursesForUser(
         currentUser._id
       );
+
       const courses = allCourses.map((course: any) => {
         if (enrolledCourses.find((c: any) => c._id === course._id)) {
           return { ...course, enrolled: true };
@@ -46,8 +47,8 @@ function Kanbas() {
           return { ...course, enrolled: false };
         }
       });
-      console.log("FETCH ALL", enrolledCourses, allCourses, courses);
-      setCourses(courses);
+      // console.log("FETCH ALL", enrolledCourses, allCourses, courses);
+      setCourses(courses.filter((c: any) => c));
     } catch (error) {
       console.error(error);
     }
