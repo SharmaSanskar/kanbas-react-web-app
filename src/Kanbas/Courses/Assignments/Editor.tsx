@@ -36,7 +36,7 @@ function AssignmentEditor() {
       cid,
       newAssignment
     );
-    dispatch(addAssignment(assignmentRes));
+    dispatch(addAssignment(newAssignment));
   };
 
   const saveAssignment = async (assignment: any) => {
