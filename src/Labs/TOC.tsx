@@ -81,7 +81,7 @@ function TOC() {
         <li className="nav-item">
           <a
             id="wd-server"
-            href="https://kanbas-node-server-app-g7ak.onrender.com"
+            href="https://kanbas-node-server-app-a6-me1i.onrender.com"
             target="_blank"
             rel="noreferrer"
             className="nav-link"
